@@ -17,8 +17,7 @@ import { ApolloDriver, ApolloDriverConfig  } from '@nestjs/apollo';
       autoSchemaFile: true,
       context: ({ req }) => ({ req }),
     }),
-   MongooseModule.forRoot('mongodb+srv://vidhupawaradmin:vidhu123@cluster1.dnffxib.mongodb.net/nestjs-demo?retryWrites=true&w=majority'),
-  //      MongooseModule.forRoot(process.env.MONGODB_URL),
+    MongooseModule.forRoot(process.env.MONGODB_URL),
   ],
   controllers: [AppController],
   providers: [

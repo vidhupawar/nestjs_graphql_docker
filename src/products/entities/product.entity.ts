@@ -8,15 +8,22 @@ export type ProductDocument = Product & Document;
 @ObjectType()
 @Schema({ timestamps: true })
 export class Product {
-  @Field(() => String, { nullable: true })
-  _id: string;
-
-  @Field(() => String, { nullable: true })
+ 
+  @Field(() => Number, { nullable: true })
   @Prop({ required: true, unique: true })
-  ID!: string;
+  ID!: number;
 
   @Field(() => GraphQLJSONObject, { nullable: true })
   OperatorInfo!: object;
+
+  @Field(() => GraphQLJSONObject, { nullable: true })
+  StatusType!: object;
+
+  @Field(() => GraphQLJSONObject, { nullable: true })
+  AddressInfo!: object;
+
+  @Field(() => [GraphQLJSONObject], { nullable: true })
+  Connections!: object;
 }
 
 export const ProductSchema = SchemaFactory.createForClass(Product);
