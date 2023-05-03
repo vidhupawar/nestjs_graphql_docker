@@ -43,7 +43,6 @@ export class ProductResolver {
     @Args('query', { nullable: true }) query?: string,
   ): Promise<ProductResponse> {
     const { limit, offset } = getPagingParameters(args);
-    console.log(' limit, offset ',  limit, offset )
     const [products, count] = await this.productService.findAll(
       limit,
       offset,

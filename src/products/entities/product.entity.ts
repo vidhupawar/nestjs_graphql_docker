@@ -8,7 +8,7 @@ export type ProductDocument = Product & Document;
 @ObjectType()
 @Schema({ timestamps: true })
 export class Product {
- 
+
   @Field(() => Number, { nullable: true })
   @Prop({ required: true, unique: true })
   ID!: number;

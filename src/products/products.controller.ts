@@ -8,7 +8,7 @@ export class ProductsController {
     @Post()
     async addProducts(
         @Body() productData: Object
-        ) {
+    ) {
         await this.productService.insertProducts(
             productData
         );
@@ -22,7 +22,7 @@ export class ProductsController {
     @Get(':id')
     async getProductById(
         @Param('id') prodId: number
-    ){
+    ) {
         return await this.productService.getProductById(prodId);
     }
 
@@ -30,7 +30,7 @@ export class ProductsController {
     async updateProduct(
         @Param('id') prodId: number,
         @Body() productData: Object
-    ){
+    ) {
         await this.productService.updateProduct(prodId, productData);
         return `${prodId} updated;`
     }
