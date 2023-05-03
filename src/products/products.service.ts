@@ -1,9 +1,10 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Product } from './products.model';
-import { Model } from 'mongoose';
+import { Model, Document, Types  } from 'mongoose';
 import { HttpService} from '@nestjs/axios';
 import { v4 as uuidv4 } from 'uuid';
+import { ProductDocument } from './entities/product.entity';
 
 @Injectable()
 export class ProductsService {
@@ -19,24 +20,21 @@ export class ProductsService {
         this.httpService.get('https://api.openchargemap.io/v3/poi/?output=json&countrycode=US&maxresults=1?key=ff82541f-c8d1-4507-be67-bd07e3259c4e')
         .subscribe(res => {
             this.stationData = res;
-            console.log('stationData', this.stationData)
         });
         return;
     }
 
     async insertProducts(productData) {
-        const newProduct = new this.productModel(productData );
-        const product = await newProduct.save();
-        return product.id;
+        await this.productModel.insertMany(productData);
     }
 
     async getProductById(prodId){
         try{
-            let prodData = await this.productModel.find( { ID: prodId }).exec();
+            let prodData = await this.productModel.findOne( { ID: prodId }).exec();
             return prodData;
         }
         catch (err) {
-            throw new NotFoundException(`Not found product of Id-${prodId}`);
+            throw new NotFoundException(`No product found of Id-${prodId}`);
         }  
     }
 
@@ -53,4 +51,36 @@ export class ProductsService {
         }
        
     }
+
+    async getProducts() {
+        const users = await this.productModel.find().exec();
+        return users;
+      }
+
+    async findAll(
+        limit: number,
+        offset: number,
+        query = '',
+      ): Promise<
+        [
+          prods: (Product &
+            Document<any, any, any> & {
+              _id: any;
+            })[],
+          count: number,
+        ]
+      > {
+        const count = await this.productModel.count();
+        let prods;
+        await this.productModel
+          .find()
+          .skip(offset)
+          .limit(limit)
+
+          .exec()
+          .then(res => {
+            prods = res;
+          });
+        return [prods, count];
+      }
 }

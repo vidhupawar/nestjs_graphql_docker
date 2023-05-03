@@ -4,12 +4,21 @@ import { Module } from '@nestjs/common';
 import { ProductsModule } from './products/products.module';
 import { AppService } from './app.service';
 import { AppController } from './app.controller';
+import { GraphQLModule } from '@nestjs/graphql';
+import { ApolloDriver, ApolloDriverConfig  } from '@nestjs/apollo';
+
 
 
 @Module({
   imports: [
     ProductsModule,
-    MongooseModule.forRoot('mongodb+srv://vidhupawar:vidhu123@cluster1.dnffxib.mongodb.net/nestjs-demo?retryWrites=true&w=majority'),
+    GraphQLModule.forRoot<ApolloDriverConfig>({
+      driver: ApolloDriver,
+      autoSchemaFile: true,
+      context: ({ req }) => ({ req }),
+    }),
+   MongooseModule.forRoot('mongodb+srv://vidhupawaradmin:vidhu123@cluster1.dnffxib.mongodb.net/nestjs-demo?retryWrites=true&w=majority'),
+  //      MongooseModule.forRoot(process.env.MONGODB_URL),
   ],
   controllers: [AppController],
   providers: [

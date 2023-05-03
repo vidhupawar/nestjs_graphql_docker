@@ -1,5 +1,7 @@
 import * as mongoose from 'mongoose';
 const uuid = require('uuid');
+import { Field, Int, ObjectType, ArgsType, Float } from '@nestjs/graphql';
+import { GraphQLJSON, GraphQLJSONObject } from 'graphql-type-json';
 
 export interface Product extends mongoose.Document{
 
@@ -82,3 +84,32 @@ export const ProductSchema = new mongoose.Schema({
     DateCreated: { type: String },
     SubmissionStatusTypeID: { type: Number }
 })
+
+
+@ObjectType()
+export class ProductModel {
+    @Field(() => Float)
+    ID: number;
+
+    @Field(type => GraphQLJSONObject, { nullable: true })
+    OperatorInfo: object
+
+    @Field(type => GraphQLJSONObject, { nullable: true })
+    StatusType?: object;
+
+    @Field(type => GraphQLJSONObject, { nullable: true })
+    AddressInfo?: object;
+
+    @Field(type =>  [GraphQLJSONObject], { nullable: true })
+    Connections?: [CType];
+
+}
+
+
+type Products = {
+    id: number;
+    OperatorInfo: Object;
+    StatusType: object
+    AddressInfo: object
+    Connections: Array<CType>
+}

@@ -9,12 +9,9 @@ export class ProductsController {
     async addProducts(
         @Body() productData: Object
         ) {
-        const prodId = await this.productService.insertProducts(
+        await this.productService.insertProducts(
             productData
         );
-        return {
-            id: prodId
-        }
     }
 
     @Get()
