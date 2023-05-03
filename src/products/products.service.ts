@@ -1,4 +1,4 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { Injectable, NotFoundException, HttpException, HttpStatus, BadRequestException} from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Product } from './products.model';
 import { Model, Document, Types  } from 'mongoose';
@@ -17,15 +17,24 @@ export class ProductsService {
     ){}
 
     async getStationData() {
+      try {
         this.httpService.get('https://api.openchargemap.io/v3/poi/?output=json&countrycode=US&maxresults=1?key=ff82541f-c8d1-4507-be67-bd07e3259c4e')
         .subscribe(res => {
             this.stationData = res;
         });
         return;
+      }catch(err) {
+        throw new HttpException('Forbidden', HttpStatus.FORBIDDEN);
+      }
     }
 
     async insertProducts(productData) {
+      try {
         await this.productModel.insertMany(productData);
+      } catch(err) {
+        throw new BadRequestException('Error', { cause: new Error(), description: 'Some error description' })
+
+      }
     }
 
     async getProductById(prodId){
