@@ -56,6 +56,11 @@ $ npm run start:prod
 localhost:3000/products (from postman)
 
 ```
+#result
+![image](https://user-images.githubusercontent.com/20113685/236167804-474ed064-c539-4d9d-8bac-265c2d940816.png)
+![image](https://user-images.githubusercontent.com/20113685/236167960-a00ed7f1-1937-4e76-a98c-040ff3685580.png)
+
+```
 
 
 ## Running Port
