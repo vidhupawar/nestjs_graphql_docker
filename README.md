@@ -35,6 +35,12 @@ $ npm install
 ## Running the app
 
 ```bash
+
+
+#docker
+docker-compose up
+
+
 # development
 $ npm run start
 
@@ -44,9 +50,13 @@ $ npm run start:dev
 # production mode
 $ npm run start:prod
 
-#docker
-docker-compose up
+
 ```
+#to insert data in mongodb 
+localhost:3000/products (from postman)
+
+```
+
 
 ## Running Port
 #Graphql
