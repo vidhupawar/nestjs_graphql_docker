@@ -43,7 +43,14 @@ $ npm run start:dev
 
 # production mode
 $ npm run start:prod
+
+#docker
+docker-compose up
 ```
+
+## Running Port
+#Graphql
+http://localhost:3000/graphql
 
 ## Test
 
