@@ -5,18 +5,12 @@ import { ProductsService } from './products.service';
 export class ProductsController {
     constructor(private readonly productService: ProductsService) { }
 
-    @Post()
-    async addProducts(
-        @Body() productData: Object
-    ) {
-        await this.productService.insertProducts(
-            productData
-        );
-    }
-
     @Get()
     async getProductData() {
-        return await this.productService.getStationData();
+        await this.productService.getStationData()
+        .then(res => {
+            return res;
+        })
     }
 
     @Get(':id')

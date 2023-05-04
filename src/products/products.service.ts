@@ -16,22 +16,8 @@ export class ProductsService {
     private readonly httpService: HttpService
   ) { }
 
-  /*getStationData
-  to fetch data from open charge api
-  */
-  async getStationData() {
-    try {
-      this.httpService.get('https://api.openchargemap.io/v3/poi/?output=json&countrycode=US&maxresults=1?key=ff82541f-c8d1-4507-be67-bd07e3259c4e')
-        .subscribe(res => {
-          this.stationData = res;
-        });
-      return;
-    } catch (err) {
-      throw new HttpException('Forbidden', HttpStatus.FORBIDDEN);
-    }
-  }
 
-  /*insertProducts
+    /*insertProducts
   @productData - data from open charge api
   to insert records in mongodb
   */
@@ -40,9 +26,27 @@ export class ProductsService {
       await this.productModel.insertMany(productData);
     } catch (err) {
       throw new BadRequestException('Error', { cause: new Error(), description: 'Some error description' })
-
     }
   }
+
+
+  /*getStationData
+  to fetch data from open charge api
+  */
+  async getStationData() {
+    try {
+      let prodData: [Product]
+      this.httpService.get('https://api.openchargemap.io/v3/poi/?output=json&countrycode=US&maxresults=10?key=ff82541f-c8d1-4507-be67-bd07e3259c4e')
+        .subscribe(async (APIres:any) => {
+          await this.insertProducts(APIres.data);
+          prodData = APIres.data;
+          return prodData;
+        });
+    } catch (err) {
+      throw new HttpException('Forbidden', HttpStatus.FORBIDDEN);
+    }
+  }
+
 
   /*getProductById
  @prodId - product ID 
@@ -73,7 +77,7 @@ export class ProductsService {
     if (existingProduct && existingProduct.length) {
       await this.productModel.findOneAndUpdate({ ID: prodId }, productData, { new: true }).exec();
     } else {
-      await this.insertProducts(productData);
+      // await this.productModel
     }
 
   }
