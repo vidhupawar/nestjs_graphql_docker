@@ -52,6 +52,49 @@ docker-compose up
 #Graphql
 http://localhost:3000/graphql
 
+#graphql query
+
+
+{
+  ProductList(first:3) {
+   edges {
+    cursor
+    node  {
+      ID
+      OperatorInfo
+    } 
+  }
+    pageInfo {
+      startCursor
+      endCursor
+      hasPreviousPage
+      hasNextPage
+		}
+  }
+}
+
+{
+ getProductById(id: 263750)
+  {  ID
+    OperatorInfo
+    StatusType
+    AddressInfo
+    Connections
+  }
+}
+
+{
+ getAllProducts
+  {  ID
+    OperatorInfo
+    StatusType
+    AddressInfo
+    Connections
+  }
+}
+
+
+
 ## Test
 
 ```bash
